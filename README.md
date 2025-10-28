@@ -1,23 +1,31 @@
 # Good Deal? - Kleinanzeigen.de AI Deal Checker
-Is this thingy a good deal? Yes? Idk, ask ChatGPT...
 
-## Problem
-Always when i was doomscrolling kleinanzeigen i wanted to know if the price of an item is a good deal or not. So i made this extension to help me with that. Its a browser extention that adds a button to the UI on a listing. On mobile it is a shareable app (PWA).
+Is this item a good deal? Unsure? Let ChatGPT help you decide!
 
-## Solution
-This extension sends the listing data to a serverless function that uses ChatGPT to analyze the deal and return a verdict.
+## Overview
+
+This project is a browser extension for Kleinanzeigen.de that helps you quickly check if a listing is a good deal. It adds a button to each listing's UI. On mobile, it's available as a shareable Progressive Web App (PWA).
+
+## How It Works
+
+The extension sends the listing URL to a serverless function, which fetches the listing data from Kleinanzeigen.de and uses ChatGPT to analyze the deal. The verdict is then displayed directly in your browser.
 
 ## Privacy
-No data is stored. The extension only sends the listing URL to the serverless function, which then fetches the listing data directly from Kleinanzeigen.de. The serverless function does not store any data and only uses it to get a verdict from ChatGPT.
 
-The only data stored is logs which might contain what ip asked the server what. Logs are not often deleted and only for storage purposes.
+- Only the listing URL is sent to the serverless function.
+- The serverless function does not store any data except for logs, which may contain IP addresses.
+- Logs are not frequently deleted and can not be deleted at will nor by GDPR request. (You agree to this by using the extension, the website or the PWA.)
 
 ## Disclaimer
-Do NOT use this if you care about privacy!!!!!
 
-This is a self-hosted project for me and myself only. Look at the code, do whatever with the code, its MIT licensed.
-I am NOT responsible for any data leaks or privacy issues that might arise from using this extension.
-Use at your own risk.
+**Do NOT use this if you care about privacy!**
+
+This is a self-hosted project intended for personal use. Review the code yourself—it's MIT licensed. The author is not responsible for any data leaks or privacy issues. Use at your own risk.
+
+## Download
+
+A release is available that includes the Firefox extension file. Check the [Releases](https://github.com/Space-Banane/good_deal/releases) section to download and install it.
 
 ## License
+
 MIT License
