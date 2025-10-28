@@ -1,0 +1,31 @@
+{
+  "name": "Kleinanzeigen Deal Checker",
+  "short_name": "DealChecker",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#111827",
+  "theme_color": "#e11d48",
+  "description": "Check if a Kleinanzeigen deal is good, negotiable, or not worth it.",
+  "icons": [
+    {
+      "src": "https://cdn.reversed.dev/pictures/kleinanzeigen_icon.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "https://cdn.reversed.dev/pictures/kleinanzeigen_icon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+   "share_target": {
+    "action": "https://shsf-api.reversed.dev/api/exec/7/c109a958-e326-4619-993f-44985da7cec7/share",
+    "method": "POST",
+    "enctype": "application/x-www-form-urlencoded",
+    "params": {
+      "title": "title",
+      "text": "text",
+      "url": "url"
+    }
+  }
+}

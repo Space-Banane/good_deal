@@ -1,0 +1,46 @@
+{
+    "manifest_version": 3,
+    "name": "Good Deal?",
+    "version": "1.0.1",
+    "description": "Checks if this Kleinanzeigen deal is good, negotiable, or not worth it.",
+    "content_scripts": [
+        {
+            "matches": [
+                "https://www.kleinanzeigen.de/s-anzeige/*"
+            ],
+            "js": [
+                "content.js"
+            ]
+        }
+    ],
+    "icons": {
+        "16": "kleinanzeigen_icon.png",
+        "32": "kleinanzeigen_icon.png",
+        "48": "kleinanzeigen_icon.png",
+        "128": "kleinanzeigen_icon.png"
+    },
+    "permissions": [
+        "activeTab"
+    ],
+    "action": {
+        "default_popup": "popup.html",
+        "default_icon": {
+            "16": "kleinanzeigen_icon.png",
+            "32": "kleinanzeigen_icon.png"
+        }
+    },
+    "browser_specific_settings": {
+        "gecko": {
+            "id": "@good-deal",
+            "data_collection_permissions": {
+                "required": [
+                    "searchTerms"
+                ],
+                "optional": [
+                    "technicalAndInteraction"
+                ]
+            }
+        },
+        "strict_min_version": "58.0"
+    }
+}
