@@ -66,7 +66,12 @@ def scrape_kleinanzeigen_item(url):
     if price_element:
         item["price_negotiable"] = "VB" in price_element.get_text()
     else:
-        item["price_negotiable"] = False
+        # Check but as a h2 (fallback)
+        price_element_h2 = soup.find("h2", {"id": "viewad-price"})
+        if price_element_h2:
+            item["price_negotiable"] = "VB" in price_element_h2.get_text()
+        else:
+            item["price_negotiable"] = False
 
     # Extract image URL
     image_meta = soup.find("meta", {"property": "og:image"})
@@ -226,24 +231,38 @@ Don't do anything else than answering the question in HTML format. Respect what 
     if route == "check_item":
         # Prepare prompt for OpenAI
         prompt = f"""You are an expert buyer on Kleinanzeigen.de. 
-Given the following item details, decide the best course of action:
+Given the following item details, decide the best course of action. 
+Be SKEPTICAL and critical: Assume the seller may be hiding flaws, overpricing, or exaggerating. 
+If the price is negotiable, always suggest a realistic but low counter-offer as "better_price" (float, in the same currency). 
+If not negotiable, set "better_price" to null. 
+Don't trust the listing blindly—consider risks, missing info, and market value.
+
 Item Details:
 ```json
 {item}
 ```
 Respond with a json object containing:
 - "action": one of ["buy", "negotiate", "look_into", "dont", "dont_dont"]
-- confidence: a float between 0 and 1 indicating your confidence in this decision.
+- "confidence": a float between 0 and 1 indicating your confidence in this decision.
 - "reason": a brief explanation of your decision (200 chars max, giving a reason for your choice).
+- "better_price": a float (suggested price) if negotiable, or null if not.
 
-If the price is negotioable, give a better price (lowball).
+Example:
+{{
+  "action": "negotiate",
+  "confidence": 0.65,
+  "reason": "Price is a bit high and description is vague. Negotiate for a better deal.",
+  "better_price": 120.0
+}}
+
+Be concise, skeptical, and always fill all fields.
 """
 
         response = client.chat.completions.create(
             model="gpt-4o",
             messages=[{"role": "user", "content": prompt}],
             temperature=0.2,
-            max_tokens=300,
+            max_tokens=350,
             response_format={"type": "json_object"},
         )
         decision = response.choices[0].message.content
@@ -257,6 +276,7 @@ If the price is negotioable, give a better price (lowball).
             or not (0 <= decision["confidence"] <= 1)
             or not isinstance(decision.get("reason"), str)
             or len(decision["reason"]) > 200
+            or ("better_price" not in decision)
         ):
             return make_res(500, {"error": "Invalid response from AI."})
 

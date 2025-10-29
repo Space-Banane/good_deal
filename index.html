@@ -471,7 +471,20 @@
                       ${decision.confidence >= 0.8 ? '🎯 High confidence - Strong recommendation' : decision.confidence >= 0.6 ? '⚖️ Medium confidence - Consider carefully' : '⚠️ Low confidence - Proceed with caution'}
                     </div>
                   </div>
-                  
+                  <!-- Better Price Suggestion -->
+                  ${
+                    typeof decision.better_price === "number" && !isNaN(decision.better_price)
+                      ? `<div class="mb-4 md:mb-6">
+                          <div class="flex items-center justify-between mb-2">
+                            <span class="text-sm text-slate-400 flex items-center gap-1">💸 AI Suggested Price</span>
+                            <span class="text-lg font-bold text-emerald-300">${decision.better_price.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})} ${item.currency || ''}</span>
+                          </div>
+                          <div class="text-xs text-slate-500 text-center">
+                            ${decision.action === "negotiate" ? "Try to negotiate for this price!" : "AI thinks this would be a fairer price."}
+                          </div>
+                        </div>`
+                      : ""
+                  }
                   <!-- Analysis -->
                   <div class="bg-slate-900/60 border border-slate-700/50 rounded-lg p-3 md:p-4 mb-4 md:mb-6 backdrop-blur-sm">
                     <h4 class="text-sm font-medium text-slate-400 mb-3 flex items-center gap-1">
