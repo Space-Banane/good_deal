@@ -235,6 +235,8 @@ Respond with a json object containing:
 - "action": one of ["buy", "negotiate", "look_into", "dont", "dont_dont"]
 - confidence: a float between 0 and 1 indicating your confidence in this decision.
 - "reason": a brief explanation of your decision (200 chars max, giving a reason for your choice).
+
+If the price is negotioable, give a better price (lowball).
 """
 
         response = client.chat.completions.create(
